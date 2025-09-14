@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGET="secretshell-daeth5mu.alfactf.ru"
+TARGET="api"
 
 for port in {30000..65535}; do
     timeout 0.1 bash -c "echo >/dev/tcp/$TARGET/$port" 2>/dev/null
