@@ -2,15 +2,14 @@
 
 TARGET="secretshell-daeth5mu.alfactf.ru"
 
-scan_port() {
-    port=$1
+for port in {1..65535}; do
     timeout 0.1 bash -c "echo >/dev/tcp/$TARGET/$port" 2>/dev/null
     if [ $? -eq 0 ]; then
         echo "Port $port: OPEN"
     fi
-}
-
-export -f scan_port
-export TARGET
-
-seq 1 65535 | xargs -I {} -P 100 bash -c 'scan_port "$@"' _ {}
+    # Прогресс-бар
+    if [ $((port % 1000)) -eq 0 ]; then
+        echo -ne "Scanned: $port/65535 ports\r" >&2
+    fi
+done
+echo -e "\nScan completed!" >&2
